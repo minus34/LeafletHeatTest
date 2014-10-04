@@ -98,11 +98,6 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 		
 		var zoomLevel = map.getZoom();
 		
-		//Hide the loading GIF just before rendering commences
-		$(window).ready(function() {
-			$('#loading').hide();
-		});
-		
 		if (dataLen) {
             for (var i = 0; i < dataLen; i++) {
 				var dataVal = this.data[i],
