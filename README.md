@@ -1,6 +1,6 @@
 LeafletHeatTest
 ===============
 
-Just testing heatmaps in Leaflet with 250,000 records client side rendered.
+A population density heatmap using WebGl and Leaflet with ~350,000 points client side rendered.
 
-No guarantees I'll get this working the way I want it to...
+Data is based on ABS Census 2011 meshblock centroids.
