@@ -6,42 +6,43 @@
 
 L.TileLayer.WebGLHeatMap = L.Class.extend({
 
-    options: {
-        size: 5, // in pixels
-        maxValue: 100,
-        opacity: 1,
+	options: {
+		size: 5, // in pixels
+		maxValue: 100,
+		opacity: 1,
 		gradientTexture: false,
 		alphaRange: 1,
 		autoresize: false
-    },
-    
-    initialize: function (options) {
-        this.data = [];
-        L.Util.setOptions(this, options);
-    },
+	},
+	
+	initialize: function (options) {
+		this.data = [];
+		L.Util.setOptions(this, options);
+	},
 
-    onAdd: function (map) {
-        this.map = map;
+	onAdd: function (map) {
+		this.map = map;
+
 		var mapsize = map.getSize();
 		var options = this.options;
-		
+	
 		var c = document.createElement("canvas");
 		c.id = 'webgl-leaflet';
-        c.width = mapsize.x;
-        c.height = mapsize.y;
-        c.style.opacity = options.opacity;
-        c.style.position = 'absolute';
+		c.width = mapsize.x;
+		c.height = mapsize.y;
+		c.style.opacity = options.opacity;
+		c.style.position = 'absolute';
 		
 		map.getPanes().overlayPane.appendChild(c);
-        
-        this.WebGLHeatMap = createWebGLHeatmap({ 
+				
+		this.WebGLHeatMap = createWebGLHeatmap({ 
 			canvas: c, 
 			gradientTexture: options.gradientTexture, 
 			alphaRange: [0, options.alphaRange]
 		});
 
-        this.canvas = c;
-        
+		this.canvas = c;
+			
 		/* This needs to be fixed somehow. 'moveend' triggers this._plot 3 times for each window resize. */
 		map.on("moveend", this._plot, this);
 		
@@ -60,16 +61,16 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 				}, 250);
 			};
 		}
-		
-        this._plot();
-    },
+	
+		this._plot();
+	},
 	
 	onRemove: function (map) {
-        map.getPanes().overlayPane.removeChild(this.canvas);
-        map.off("moveend", this._plot, this);
+		map.getPanes().overlayPane.removeChild(this.canvas);
+		map.off("moveend", this._plot, this);
 		map.off("zoomstart", this._hide, this);
 		map.off("zoomend", this._show, this);
-    },
+  },
 	
 	_hide : function () {
 		this.canvas.style.display = 'none';
@@ -99,19 +100,22 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 		var zoomLevel = map.getZoom();
 		
 		if (dataLen) {
-            for (var i = 0; i < dataLen; i++) {
+      for (var i = 0; i < dataLen; i++) {
 				var dataVal = this.data[i],
-					latlng = new L.LatLng(dataVal[0], dataVal[1]),
-					point = map.latLngToContainerPoint(latlng);
-                heatmap.addPoint(
-                        Math.floor(point.x),
-                        Math.floor(point.y),
-						zoomLevel * this.options.size,
-						dataVal[2] / this.options.maxValue);
-            }
-            heatmap.update();
-            heatmap.display();
-        }
+				latlng = new L.LatLng(dataVal[0], dataVal[1]),
+				point = map.latLngToContainerPoint(latlng);
+				
+				heatmap.addPoint(
+					Math.floor(point.x),
+					Math.floor(point.y),
+					zoomLevel * (zoomLevel / 3),
+					dataVal[2] / this.options.maxValue
+				);
+      }
+
+			heatmap.update();
+			heatmap.display();
+		}
 	},
 	
 	// _scale: function (latlng) {
@@ -138,14 +142,14 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 		this._plot();
 	},
 	
-    addDataPoint: function (lat, lon, value) {
-        this.data.push( [ lat, lon, value / 100 ] );
-    },
+	addDataPoint: function (lat, lon, value) {
+			this.data.push( [ lat, lon, value / 100 ] );
+	},
 	
 	setData: function (dataset) {
 		// format: [[lat, lon, value],...]
 		this.data = dataset;
-    },
+  },
 	
 	clearData: function () {
 		this.data = [];
@@ -154,6 +158,7 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 	update: function () {
 		this._plot();
 	}
+
 });
 
 L.TileLayer.webglheatmap = function (options) {
