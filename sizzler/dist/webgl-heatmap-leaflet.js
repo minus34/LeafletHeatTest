@@ -108,7 +108,7 @@ L.TileLayer.WebGLHeatMap = L.Class.extend({
 				heatmap.addPoint(
 					Math.floor(point.x),
 					Math.floor(point.y),
-					zoomLevel * (zoomLevel / 3),
+					zoomLevel * (zoomLevel / 4),
 					dataVal[2] / this.options.maxValue
 				);
       }
