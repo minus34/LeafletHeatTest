@@ -3,6 +3,8 @@
  * http://www.minus34.com/
  */
 
+var map;
+ 
 function init(){
 	var $loading = $('#loading').hide();
 	$(document)
@@ -18,7 +20,7 @@ function init(){
 		});
 
 	//Create the map
-	var map = L.map('map', {
+	map = L.map('map', {
 		maxZoom: 15
 	});
 	
