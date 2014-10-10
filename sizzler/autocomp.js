@@ -7,11 +7,13 @@ $(function() {
 	$("#autocomplete1").autocomplete({
 		source: subs,
 		minLength: 3,
+		//autoFocus: true,
+		
 		focus: function(event, ui) {
 			// prevent autocomplete from updating the textbox
-			event.preventDefault();
+			//event.preventDefault();
 			// manually update the textbox
-			$(this).val(ui.item.label);
+			//$(this).val(ui.item.label);
 		},
 		select: function(event, ui) {
 			// prevent autocomplete from updating the textbox
@@ -20,22 +22,32 @@ $(function() {
 			$(this).val(ui.item.label);
 			
 			var boundsArray = ui.item.value;
-			
-			console.log(boundsArray);
-			
-			//[153.02644, -27.36821, 153.05263, -27.34954] 
+			//console.log(boundsArray);
 			
 			var southWest = L.latLng(boundsArray[1], boundsArray[0]),
 					northEast = L.latLng(boundsArray[3], boundsArray[2]),
 					bounds = L.latLngBounds(southWest, northEast);
 			
-			var newZoom = map.getBoundsZoom(bounds, false) - 1;
+			var newZoom = map.getBoundsZoom(bounds, false) - 2;
 
-			console.log(newZoom);
-			console.log(bounds.getCenter());
+			// console.log(newZoom);
+			// console.log(bounds.getCenter());
 			
 			map.setView(bounds.getCenter(), newZoom);
-
-			}
+		}
 	});
+
+	// Overrides the default autocomplete filter function to search only from the beginning of the string
+	$.ui.autocomplete.filter = function (array, term) {
+			var matcher = new RegExp("\\b" + $.ui.autocomplete.escapeRegex(term), "i");
+			return $.grep(array, function (value) {
+					return matcher.test(value.label || value.value || value);
+			});
+	};
+	
+	$("#autocomplete1").on("click", function () {
+		$(this).select();
+	});
+	
 });
+
