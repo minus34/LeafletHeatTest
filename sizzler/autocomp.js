@@ -6,7 +6,7 @@
 $(function() {
 	$("#autocomplete1").autocomplete({
 		source: subs,
-		minLength: 3,
+		minLength: 2,
 		//autoFocus: true,
 		
 		focus: function(event, ui) {
