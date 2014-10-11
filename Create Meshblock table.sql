@@ -1,4 +1,4 @@
-﻿
+
 DROP TABLE IF EXISTS public.mb_2011_aust;
 
 CREATE TABLE public.mb_2011_aust
