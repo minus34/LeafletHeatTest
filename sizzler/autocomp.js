@@ -7,37 +7,28 @@ $(function() {
 	$("#autocomplete1").autocomplete({
 		source: subs,
 		minLength: 2,
-		//autoFocus: true,
-		
-		focus: function(event, ui) {
-			// prevent autocomplete from updating the textbox
-			//event.preventDefault();
-			// manually update the textbox
-			//$(this).val(ui.item.label);
-		},
+
 		select: function(event, ui) {
 			// prevent autocomplete from updating the textbox
 			event.preventDefault();
-			// manually update the textbox and hidden field
-			$(this).val(ui.item.label);
 			
+			// update the textbox with the selection
+			$(this).val(ui.item.label);
+
+			// change the map extents to the extents of the suburb/town, minus 2 zoom levels (to make the map more meaningful)
 			var boundsArray = ui.item.value;
-			//console.log(boundsArray);
 			
 			var southWest = L.latLng(boundsArray[1], boundsArray[0]),
 					northEast = L.latLng(boundsArray[3], boundsArray[2]),
 					bounds = L.latLngBounds(southWest, northEast);
 			
 			var newZoom = map.getBoundsZoom(bounds, false) - 2;
-
-			// console.log(newZoom);
-			// console.log(bounds.getCenter());
 			
 			map.setView(bounds.getCenter(), newZoom);
 		}
 	});
 
-	// Overrides the default autocomplete filter function to search only from the beginning of the string
+	// override the default autocomplete filter function to search only from the beginning of each word
 	$.ui.autocomplete.filter = function (array, term) {
 			var matcher = new RegExp("\\b" + $.ui.autocomplete.escapeRegex(term), "i");
 			return $.grep(array, function (value) {
@@ -45,9 +36,9 @@ $(function() {
 			});
 	};
 	
+	// highlight the current text when user clicks on the textbox
 	$("#autocomplete1").on("click", function () {
 		$(this).select();
 	});
 	
 });
-
