@@ -5,9 +5,14 @@
 
 $(function() {
 	$("#autocomplete1").autocomplete({
-		source: subs,
+		source: subs, //loaded from suburbs2011.js
 		minLength: 2,
 
+		focus: function(event, ui) {
+			// prevent autocomplete from updating the textbox
+			event.preventDefault();		
+		},
+		
 		select: function(event, ui) {
 			// prevent autocomplete from updating the textbox
 			event.preventDefault();
@@ -15,7 +20,7 @@ $(function() {
 			// update the textbox with the selection
 			$(this).val(ui.item.label);
 
-			// change the map extents to the extents of the suburb/town, minus 2 zoom levels (to make the map more meaningful)
+			// change the map extents to the extents of the suburb/town, minus 2 zoom levels for a more useful map
 			var boundsArray = ui.item.value;
 			
 			var southWest = L.latLng(boundsArray[1], boundsArray[0]),
@@ -40,5 +45,4 @@ $(function() {
 	$("#autocomplete1").on("click", function () {
 		$(this).select();
 	});
-	
 });

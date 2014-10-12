@@ -1,15 +1,17 @@
 /*
  * CC Copyright 2014 Hugh Saalmans <info@minus34.com>
  * http://www.minus34.com/
+ * 
+ * Postgres 9.3 scripts used to generate point and suburb data
+ * https://github.com/minus34/LeafletHeatTest
  */
 
 var map;
  
 function init(){
 
+  // show points loading message until data downloaded (~8mb)
 	var $loading = $('#loading').hide();
-	
-  // show points loading message until points file is downloaded
 	$(document)
 		.ajaxStart(function () {
 			$loading.show();
@@ -17,17 +19,15 @@ function init(){
 		.ajaxStop(function () {
 			$loading.hide();
 			
-			// create heatmap: alpha = 1 for maxValue and above; alphaRange 0 gives the full spectrum of colours, autoresize to support windows resizing
+			// create heatmap:
+			// alpha = 1 for maxValue and above; alphaRange 0 gives the full spectrum of colours, autoresize to support windows resizing
 			var heatmap = new L.TileLayer.WebGLHeatMap({maxValue:1000, opacity:0.4, alphaRange:0, autoResize:true});
 			heatmap.setData(points);
 			map.addLayer(heatmap);
 		});
 
 	// create the map and set the view
-	map = L.map('map', {
-		maxZoom: 15
-	});
-	
+	map = L.map('map', { maxZoom: 15 });
 	map.setView([-28.5, 134], 5);
 	
 	// acknowledge the data and open source providers
