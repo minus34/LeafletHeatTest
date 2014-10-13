@@ -28,7 +28,7 @@ function init(){
 
 	// create the map and set the view
 	map = L.map('map', { maxZoom: 15 });
-	map.setView([-28.5, 134], 5);
+	map.setView([-31, 149], 5);
 	
 	// acknowledge data and open source providers
 	map.attributionControl.addAttribution('Heatmap libs &copy; <a href="http://www.ursudio.com/">@ursudio</a>');
