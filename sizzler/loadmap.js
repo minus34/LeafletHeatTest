@@ -20,7 +20,7 @@ function init(){
 			$loading.hide();
 			
 			// create heatmap:
-			// alpha = 1 for maxValue and above; alphaRange 0 gives the full spectrum of colours, autoresize to support windows resizing
+			// alpha will equal 1 for values >= maxValue; alphaRange 0 gives the full spectrum of colours, autoresize supports windows resizing
 			var heatmap = new L.TileLayer.WebGLHeatMap({maxValue:1000, opacity:0.4, alphaRange:0, autoResize:true});
 			heatmap.setData(points);
 			map.addLayer(heatmap);
@@ -30,7 +30,7 @@ function init(){
 	map = L.map('map', { maxZoom: 15 });
 	map.setView([-28.5, 134], 5);
 	
-	// acknowledge the data and open source providers
+	// acknowledge data and open source providers
 	map.attributionControl.addAttribution('Heatmap libs &copy; <a href="http://www.ursudio.com/">@ursudio</a>');
 	map.attributionControl.addAttribution('<a href="http://codeflow.org/entries/2013/feb/04/high-performance-js-heatmaps/">@pyalot</a>');
 	map.attributionControl.addAttribution('Census data &copy; <a href="http://www.abs.gov.au/websitedbs/D3310114.nsf/Home/%C2%A9+Copyright">ABS</a>');

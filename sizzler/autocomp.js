@@ -5,8 +5,8 @@
 
 $(function() {
 	$("#autocomplete1").autocomplete({
-		source: subs, //loaded from suburbs2011.js
-		minLength: 2,
+		source: subs, // loaded from suburbs2011.js
+		minLength: 2, // 2 user keystrokes before anything happens
 
 		focus: function(event, ui) {
 			// prevent autocomplete from updating the textbox
@@ -14,10 +14,9 @@ $(function() {
 		},
 		
 		select: function(event, ui) {
-			// prevent autocomplete from updating the textbox
 			event.preventDefault();
 			
-			// update the textbox with the selection
+			// update the textbox with the selected item
 			$(this).val(ui.item.label);
 
 			// change the map extents to the extents of the suburb/town, minus 2 zoom levels for a more useful map
@@ -33,7 +32,7 @@ $(function() {
 		}
 	});
 
-	// override the default autocomplete filter function to search only from the beginning of each word
+	// override the default autocomplete filter to search only from the beginning of each word
 	$.ui.autocomplete.filter = function (array, term) {
 			var matcher = new RegExp("\\b" + $.ui.autocomplete.escapeRegex(term), "i");
 			return $.grep(array, function (value) {
@@ -41,7 +40,7 @@ $(function() {
 			});
 	};
 	
-	// highlight the current text when user clicks on the textbox
+	// highlight the current text when user clicks on the textbox for overwriting
 	$("#autocomplete1").on("click", function () {
 		$(this).select();
 	});
